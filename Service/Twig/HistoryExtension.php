@@ -2,6 +2,7 @@
 
 namespace Baskin\HistoryBundle\Service\Twig;
 
+use Baskin\HistoryBundle\Service\Stringifier;
 use Doctrine\ORM\EntityManager;
 use Gedmo\Loggable\Entity\LogEntry;
 use Gedmo\Loggable\Entity\Repository\LogEntryRepository;
@@ -46,6 +47,7 @@ class HistoryExtension extends \Twig_Extension
      */
     private function logsFromEntity($entity)
     {
+        $stringifier = new Stringifier();
         /** @var LogEntryRepository $repo */
         $repo = $this->em->getRepository('Gedmo\Loggable\Entity\LogEntry');
         /** @var LogEntry[] $logs */
@@ -64,9 +66,9 @@ class HistoryExtension extends \Twig_Extension
                 $logRow->action = $log->getAction();
                 $logRow->data = array();
                 foreach ($log->getData() as $name => $value) {
-                    $dataRow = array('name' => $name, 'old' => null, 'new' => $value);
+                    $dataRow = array('name' => $name, 'old' => null, 'new' => $stringifier->getString($value));
                     if (isset($logLastData[$name])) {
-                        $dataRow['old'] = $logLastData[$name];
+                        $dataRow['old'] = $stringifier->getString($logLastData[$name]);
                     }
                     $logLastData[$name] = $value;
                     $logRow->data[] = (object)$dataRow;
