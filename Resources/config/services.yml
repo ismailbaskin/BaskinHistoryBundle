@@ -1,0 +1,13 @@
+parameters:
+  baskin.history.template : BaskinHistoryBundle:History:history.html.twig
+  baskin.history.twig_extension.class : Baskin\HistoryBundle\Service\Twig\HistoryExtension
+
+services:
+  baskin.history.twig_extension:
+      class: %baskin.history.twig_extension.class%
+      arguments:
+        - @doctrine
+        - @twig
+        - %baskin.history.template%
+      tags:
+        - { name: twig.extension }

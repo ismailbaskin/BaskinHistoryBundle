@@ -1,0 +1,37 @@
+{
+  "name" : "baskin/historyBundle",
+  "description" : "Twig Extension for Gedmo Loggable",
+  "type" : "symfony-bundle",
+  "authors" : [{
+    "name" : "ismail BASKIN",
+    "email" : "ismailbaskin1@gmail.com"
+  }],
+  "keywords" : [
+    "gedmo",
+    "loggable",
+    "twig",
+    "history",
+    "historyBundle"
+  ],
+  "license" : [
+    "MIT"
+  ],
+  "require" : {
+    "php": ">=5.4.0",
+    "symfony/symfony": "~2.7",
+    "doctrine/orm": "~2.5",
+    "twig/extensions": "1.2.*",
+    "stof/doctrine-extensions-bundle": "1.1"
+  },
+  "autoload" : {
+    "psr-4" : {
+      "Baskin\\HistoryBundle\\" : ""
+    }
+  },
+  "extra" : {
+    "branch-alias" :
+    {
+      "dev-master" : "0.1"
+    }
+  }
+}
