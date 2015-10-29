@@ -1,5 +1,5 @@
 {
-  "name" : "baskin/historyBundle",
+  "name" : "baskin/history-bundle",
   "description" : "Twig Extension for Gedmo Loggable",
   "type" : "symfony-bundle",
   "authors" : [{
