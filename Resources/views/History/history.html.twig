@@ -24,7 +24,7 @@
                             </tr>
                             {% for data in log.data %}
                                 <tr>
-                                    <th>{{ data.name }}</th>
+                                    <th>{{ data.name|trans }}</th>
                                     <td>{{ data.old }}</td>
                                     <td>{{ data.new }}</td>
                                 </tr>
