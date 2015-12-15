@@ -3,9 +3,9 @@
 namespace Baskin\HistoryBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -20,9 +20,21 @@ class BaskinHistoryExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        $container->setParameter(
+            'baskin.history.twig_extension.class',
+            'Baskin\HistoryBundle\Service\Twig\HistoryExtension'
+        );
+
+        $container->register(
+            'baskin.history.twig_extension',
+            $container->getParameter('baskin.history.twig_extension.class')
+        )
+            ->addArgument(new Reference('doctrine'))
+            ->addArgument(new Reference('twig'))
+            ->addArgument($config['template'])
+            ->addTag('twig.extension');
+
     }
 }

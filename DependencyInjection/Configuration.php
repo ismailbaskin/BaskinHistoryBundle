@@ -18,7 +18,13 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('baskin_history');
+        $rootNode = $treeBuilder->root('baskin_history');
+
+        $rootNode
+            ->children()
+                ->scalarNode('template')->defaultValue('BaskinHistoryBundle:History:history.html.twig')->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }
