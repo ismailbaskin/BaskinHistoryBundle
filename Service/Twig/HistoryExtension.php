@@ -4,8 +4,10 @@ namespace Baskin\HistoryBundle\Service\Twig;
 
 use Baskin\HistoryBundle\Service\Stringifier;
 use Doctrine\ORM\EntityManager;
-use Gedmo\Loggable\Entity\LogEntry;
+use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 use Gedmo\Loggable\Entity\Repository\LogEntryRepository;
+use Gedmo\Mapping\MappedEventSubscriber;
+use Gedmo\Tool\Wrapper\AbstractWrapper;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class HistoryExtension extends \Twig_Extension
@@ -16,12 +18,20 @@ class HistoryExtension extends \Twig_Extension
     /** @var \Twig_Environment */
     private $twig;
 
+    /** @var MappedEventSubscriber */
+    private $eventSubscriber;
+
     private $template;
 
-    public function __construct(RegistryInterface $registry, \Twig_Environment $twig, $template)
-    {
+    public function __construct(
+        RegistryInterface $registry,
+        \Twig_Environment $twig,
+        MappedEventSubscriber $eventSubscriber,
+        $template
+    ) {
         $this->em = $registry->getManager();
         $this->twig = $twig;
+        $this->eventSubscriber = $eventSubscriber;
         $this->template = $template;
     }
 
@@ -47,16 +57,31 @@ class HistoryExtension extends \Twig_Extension
      */
     private function logsFromEntity($entity)
     {
+
+        $wrapped = AbstractWrapper::wrap($entity, $this->em);
+        $meta = $wrapped->getMetadata();
+
+        $config = $this->eventSubscriber->getExtensionMetadataFactory($this->em)->getExtensionMetadata($meta);
+
+        if (!array_key_exists('loggable', $config) || $config['loggable'] !== true) {
+            return array();
+        }
+
+        $logEntryClass = 'Gedmo\\Loggable\\Entity\\LogEntry';
+        if (array_key_exists('logEntryClass', $config) && !empty($config['logEntryClass'])) {
+            $logEntryClass = $config['logEntryClass'];
+        }
+
         $stringifier = new Stringifier();
         /** @var LogEntryRepository $repo */
-        $repo = $this->em->getRepository('Gedmo\Loggable\Entity\LogEntry');
-        /** @var LogEntry[] $logs */
+        $repo = $this->em->getRepository($logEntryClass);
+        /** @var AbstractLogEntry[] $logs */
         $logs = array_reverse($repo->getLogEntries($entity));
         $logsArray = array();
         $logLastData = array();
         if (is_array($logs)) {
             foreach ($logs as $log) {
-                if (!$log instanceof LogEntry || !is_array($log->getData())) {
+                if (!$log instanceof AbstractLogEntry || !is_array($log->getData())) {
                     continue;
                 }
                 $logRow = new \stdClass();

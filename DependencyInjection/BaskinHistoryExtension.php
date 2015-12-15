@@ -33,6 +33,7 @@ class BaskinHistoryExtension extends Extension
         )
             ->addArgument(new Reference('doctrine'))
             ->addArgument(new Reference('twig'))
+            ->addArgument(new Reference('stof_doctrine_extensions.listener.loggable'))
             ->addArgument($config['template'])
             ->addTag('twig.extension');
 
