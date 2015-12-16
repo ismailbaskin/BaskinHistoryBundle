@@ -23,6 +23,8 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('template')->defaultValue('BaskinHistoryBundle:History:history.html.twig')->end()
+                ->scalarNode('versionParameter')->defaultValue('version')->end()
+                ->booleanNode('revert')->defaultFalse()->end()
             ->end()
         ;
 

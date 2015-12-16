@@ -23,16 +23,24 @@ class HistoryExtension extends \Twig_Extension
 
     private $template;
 
+    private $versionParameter;
+
+    private $revertEnabled = false;
+
     public function __construct(
         RegistryInterface $registry,
         \Twig_Environment $twig,
         MappedEventSubscriber $eventSubscriber,
-        $template
+        $template,
+        $versionParameter,
+        $revertEnabled = false
     ) {
         $this->em = $registry->getManager();
         $this->twig = $twig;
         $this->eventSubscriber = $eventSubscriber;
         $this->template = $template;
+        $this->versionParameter = $versionParameter;
+        $this->revertEnabled = $revertEnabled;
     }
 
     public function getFunctions()
@@ -42,13 +50,21 @@ class HistoryExtension extends \Twig_Extension
         );
     }
 
-    public function getLogs($entity)
+    public function getLogs($entity, $showRevert = true)
     {
         if (!is_object($entity)) {
             return '';
         }
+        $showRevert = $this->revertEnabled && $showRevert;
 
-        return $this->twig->render($this->template, array('logEntities' => $this->logsFromEntity($entity)));
+        return $this->twig->render(
+            $this->template,
+            array(
+                'logEntities' => $this->logsFromEntity($entity),
+                'versionParameter' => $this->versionParameter,
+                'showRevert' => $showRevert
+            )
+        );
     }
 
     /**

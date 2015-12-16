@@ -18,6 +18,10 @@
                 <source>history.log.newValue</source>
                 <target>Yeni Değer</target>
             </trans-unit>
+            <trans-unit id="5">
+                <source>history.log.revert</source>
+                <target>Bu Versiyonu Görüntüle</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

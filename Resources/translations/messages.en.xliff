@@ -18,6 +18,10 @@
                 <source>history.log.newValue</source>
                 <target>New Value</target>
             </trans-unit>
+            <trans-unit id="5">
+                <source>history.log.revert</source>
+                <target>Show this version</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
