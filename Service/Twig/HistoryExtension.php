@@ -89,6 +89,7 @@ class HistoryExtension extends \Twig_Extension
                 $logRow->loggedAt = $log->getLoggedAt();
                 $logRow->username = $log->getUsername();
                 $logRow->action = $log->getAction();
+                $logRow->version = $log->getVersion();
                 $logRow->data = array();
                 foreach ($log->getData() as $name => $value) {
                     $dataRow = array('name' => $name, 'old' => null, 'new' => $stringifier->getString($value));
