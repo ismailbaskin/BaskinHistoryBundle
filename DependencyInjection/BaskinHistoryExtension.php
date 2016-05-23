@@ -21,18 +21,9 @@ class BaskinHistoryExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter(
-            'baskin.history.twig_extension.class',
-            'Baskin\HistoryBundle\Service\Twig\HistoryExtension'
-        );
-        $container->setParameter(
-            'baskin.history.reverter.class',
-            'Baskin\HistoryBundle\Service\Reverter'
-        );
-
         $container->register(
             'baskin.history.twig_extension',
-            $container->getParameter('baskin.history.twig_extension.class')
+            'Baskin\\HistoryBundle\\Service\\HistoryExtension'
         )
             ->addArgument(new Reference('doctrine'))
             ->addArgument(new Reference('twig'))
@@ -45,7 +36,7 @@ class BaskinHistoryExtension extends Extension
         if ($config['revert']) {
             $container->register(
                 'baskin.history.reverter',
-                $container->getParameter('baskin.history.reverter.class')
+                'Baskin\\HistoryBundle\\Service\\Reverter'
             )
                 ->addArgument(new Reference('doctrine'))
                 ->addArgument(new Reference('request_stack'))
@@ -53,7 +44,6 @@ class BaskinHistoryExtension extends Extension
                 ->addArgument($config['versionParameter']);
 
             $container->setAlias('reverter', 'baskin.history.reverter');
-
         }
     }
 }

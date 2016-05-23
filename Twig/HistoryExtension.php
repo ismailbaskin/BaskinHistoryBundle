@@ -1,6 +1,6 @@
 <?php
 
-namespace Baskin\HistoryBundle\Service\Twig;
+namespace Baskin\HistoryBundle\Twig;
 
 use Baskin\HistoryBundle\Service\Stringifier;
 use Doctrine\ORM\EntityManager;
