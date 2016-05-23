@@ -1,5 +1,3 @@
-{% set currentPath = path(app.request.attributes.get('_route'),
-app.request.attributes.get('_route_params')) %}
 <hr/>
 <h2>{{ 'history.log.title'|trans }}</h2>
 <div id=logHistory" class="panel-group" role="tablist" aria-multiselectable="true">
@@ -34,7 +32,7 @@ app.request.attributes.get('_route_params')) %}
                         </table>
                         {% if showRevert %}
                             <a class="btn btn-info btn-block"
-                               href="{{ currentPath }}?{{ versionParameter }}={{ log.version }}">
+                               href="{{ app.request.uri }}{{ ('?' in app.request.uri) ? '&' : '?' }}{{ versionParameter }}={{ log.version }}">
                                 {{ 'history.log.revert'|trans }}
                             </a>
                             <br>
