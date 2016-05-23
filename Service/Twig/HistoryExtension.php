@@ -57,12 +57,14 @@ class HistoryExtension extends \Twig_Extension
         }
         $showRevert = $this->revertEnabled && $showRevert;
 
+        $entityFQCN = get_class($entity);
         return $this->twig->render(
             $this->template,
             array(
                 'logEntities' => $this->logsFromEntity($entity),
                 'versionParameter' => $this->versionParameter,
-                'showRevert' => $showRevert
+                'showRevert' => $showRevert,
+                'entity' => substr($entityFQCN, strrpos($entityFQCN, '\\') + 1),
             )
         );
     }
