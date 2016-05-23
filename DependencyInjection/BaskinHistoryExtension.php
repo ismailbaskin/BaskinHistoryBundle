@@ -23,7 +23,7 @@ class BaskinHistoryExtension extends Extension
 
         $container->register(
             'baskin.history.twig_extension',
-            'Baskin\\HistoryBundle\\Service\\HistoryExtension'
+            'Baskin\\HistoryBundle\\Twig\\HistoryExtension'
         )
             ->addArgument(new Reference('doctrine'))
             ->addArgument(new Reference('twig'))
