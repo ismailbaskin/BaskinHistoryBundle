@@ -60,4 +60,18 @@ $entity = $em->getRepository('AppBundle:YourEntity')->find($id);
 $this->get('reverter')->revert($entity);  
 ```
 
+### Usage with SensioFrameworkExtraBundle ParamConverter
+
+Basically it is automatically convert your entity. If you want to disable you must set revertable options to false.
+
+```php
+/**
+ * @ParamConverter("yourEntity", options={"revertable" = false})
+ */
+public function showAction(YourEntity $yourEntity)
+{
+    ...
+}  
+```
+
 **Note** : If you don't want to show `Show this version` button set second parameter false `{{ getLogs(entity, false) }}`

@@ -4,12 +4,12 @@ namespace Baskin\HistoryBundle\ParamConverter;
 
 use Baskin\HistoryBundle\Service\Reverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter as BaseDoctrineParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-class DoctrineParamConverter extends BaseDoctrineParamConverter
+class HistoryParamConverter extends DoctrineParamConverter
 {
     /**
      * @var Reverter
@@ -63,5 +63,16 @@ class DoctrineParamConverter extends BaseDoctrineParamConverter
         $request->attributes->set($name, $object);
 
         return true;
+    }
+
+    public function supports(ParamConverter $configuration)
+    {
+        $options = $configuration->getOptions();
+
+        if (isset($options['revertable']) && !filter_var($options['revertable'], FILTER_VALIDATE_BOOLEAN)) {
+            return false;
+        }
+
+        return parent::supports($configuration);
     }
 }
