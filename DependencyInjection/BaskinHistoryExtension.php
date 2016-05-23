@@ -44,6 +44,16 @@ class BaskinHistoryExtension extends Extension
                 ->addArgument($config['versionParameter']);
 
             $container->setAlias('reverter', 'baskin.history.reverter');
+
+            if (class_exists('Sensio\\Bundle\\FrameworkExtraBundle\\Request\\ParamConverter\\DoctrineParamConverter')) {
+                $container->register(
+                    'reverter',
+                    'Baskin\\HistoryBundle\\ParamConverter\\DoctrineParamConverter'
+                )
+                    ->addArgument(new Reference('reverter'))
+                    ->addArgument(new Reference('doctrine'))
+                    ->addTag('request.param_converter', array('converter' => 'doctrine.orm', 'priority' => 1));
+            }
         }
     }
 }
