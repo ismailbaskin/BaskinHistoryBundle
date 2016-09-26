@@ -22,7 +22,7 @@
                 <source>history.log.revert</source>
                 <target>Bu Versiyonu Görüntüle</target>
             </trans-unit>
-            <trans-unit id="5">
+            <trans-unit id="6">
                 <source>show.more</source>
                 <target>Daha Fazla</target>
             </trans-unit>
