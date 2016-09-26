@@ -22,6 +22,10 @@
                 <source>history.log.revert</source>
                 <target>Show this version</target>
             </trans-unit>
+            <trans-unit id="5">
+                <source>show.more</source>
+                <target>Show More</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
