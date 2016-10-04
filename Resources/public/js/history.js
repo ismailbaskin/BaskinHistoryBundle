@@ -15,7 +15,6 @@ var parent = document.querySelector('#logHistory'),
 if(loadMoreBtn !== null){
     loadMoreBtn.addEventListener('click', function(){
         [].forEach.call(document.querySelectorAll('.' + hiddenClass), function(item, idx){
-            console.log(item);
             if (idx < maxItems) {
                 item.classList.remove(hiddenClass);
             }
